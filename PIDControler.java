@@ -34,8 +34,8 @@ public void calculateControlPower(double x, double y, double theta,double kappaR
             targetHit=true;
         }
         else{ // If the target is not hit
-            controlRightPower=kappaRho*rho/wheelRadius + (kappaAlpha*alpha+kappaBeta*beta)*wheelDistance/wheelRadius;
-            controlLeftPower=kappaRho*rho/wheelRadius - (kappaAlpha*alpha+kappaBeta*beta)*wheelDistance/wheelRadius;
+            controlRightPower=-(kappaRho*rho/wheelRadius + (kappaAlpha*alpha+kappaBeta*beta)*wheelDistance/wheelRadius);
+            controlLeftPower=-(kappaRho*rho/wheelRadius - (kappaAlpha*alpha+kappaBeta*beta)*wheelDistance/wheelRadius);
         //have to ensure that the power is within a range
             double maxPower=Math.max(Math.abs(controlRightPower),Math.abs(controlLeftPower));
             if (maxPower>1){

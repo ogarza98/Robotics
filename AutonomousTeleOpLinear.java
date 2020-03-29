@@ -83,7 +83,7 @@ public class AutonomousTeleOpLinear extends LinearOpMode {
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         //robot.encoderDrive(robot.DRIVE_SPEED,  -20.0,  -20.0, 5.0, this);  // S1: Forward 47 Inches with 5 Sec timeout
         
-        robot.motionControl(0, 0, 0); 
+        //robot.motionControl(0, 0, 0); 
         
         sleep(1000);     // pause for servos to move
 

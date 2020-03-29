@@ -48,8 +48,8 @@ public class RobotHardware
     static final double     TURN_SPEED              = .5;
     static final double     WHEEL_DISTANCE          = 3;
 
-    static final double     KPPA_RHO =0.04;
-    static final double     KPPA_ALPHA = 0.1;
+    static final double     KPPA_RHO =0.039;
+    static final double     KPPA_ALPHA = 0.11;
     static final double     KPPA_BETA =-0.02;
     //These are parameters for controlling the robot. You may fine tune them
 
@@ -59,7 +59,7 @@ public class RobotHardware
     private ElapsedTime runtime  = new ElapsedTime();
     public Odometer odometer = new Odometer();
     public PIDControler pidControler = new PIDControler(); // install the new PID controller by declaring it as a new asset
-    public MotionController motion_controller = new MotionController();
+    //public MotionController motion_controller = new MotionController();
 
     /* Constructor */
     public RobotHardware(){
@@ -90,7 +90,7 @@ public class RobotHardware
         int leftPosition = leftMotor.getCurrentPosition(), rightPosition = rightMotor.getCurrentPosition(); //number of clicks
         
         odometer.setPosition(0,0,0);
-        motion_controller.setPostion(20, 20, 3.14/4);
+        //motion_controller.setPostion(20, 20, 3.14/4);
         
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -223,10 +223,10 @@ public class RobotHardware
 
     //Added interface for the PID controller on the robot
     public void updatePowerControl(){
-        pidControler.calculateControlPower(odometer.currentposx, odometer.currentposy, odometer.currentpostheta,KPPA_RHO, KPPA_ALPHA, KPPA_BETA, WHEEL_DIAMETER_INCHES/2, WHEEL_DISTANCE);
+        pidControler.calculateControlPower(odometer.xi, odometer.yi, odometer.thi,KPPA_RHO, KPPA_ALPHA, KPPA_BETA, WHEEL_DIAMETER_INCHES/2, WHEEL_DISTANCE);
     
-        leftDrive.setPower(pidControler.controlLeftPower);
-        rightDrive.setPower(pidControler.controlRightPower);
+        leftMotor.setPower(pidControler.controlLeftPower);
+        rightMotor.setPower(pidControler.controlRightPower);
     } 
 
     

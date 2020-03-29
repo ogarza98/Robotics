@@ -59,9 +59,9 @@ public class AutoPark extends LinearOpMode {
            timer=runtime.seconds();
         }
             // Show the elapsed game time and wheel power.
-        telemetry.addData("location X:",  "%.2f", robot.odometer.currentposx);
-        telemetry.addData("location Y:",  "%.2f", robot.odometer.currentposy);
-        telemetry.addData("location Theta:",  "%.2f", Math.toDegrees(robot.odometer.currentpostheta));
+        telemetry.addData("location X:",  "%.2f", robot.odometer.xi);
+        telemetry.addData("location Y:",  "%.2f", robot.odometer.yi);
+        telemetry.addData("location Theta:",  "%.2f", Math.toDegrees(robot.odometer.thi));
         telemetry.addData("rho :",  "%.2f", robot.pidControler.rho);
         telemetry.addData("alpha  :",  "%.2f", Math.toDegrees(robot.pidControler.alpha));
         telemetry.addData("beta  :",  "%.2f", Math.toDegrees(robot.pidControler.beta));
