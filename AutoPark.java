@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.util.Range;
 public class AutoPark extends LinearOpMode {
 
     // Declare OpMode members.
-    public DemoHardware robot   = new DemoHardware(); 
+    public RobotHardware robot   = new RobotHardware(); 
 //declare a time tracker runtime and a timer to track time
     public ElapsedTime runtime  = new ElapsedTime();
     double timer=0;
@@ -46,7 +46,7 @@ public class AutoPark extends LinearOpMode {
         waitForStart();
         runtime.reset();
         robot.pidControler.setTarget(20,20,3.14/4); //set the target
-        robot.odometer.setValues(0,0,0);
+        robot.odometer.setPosition(0,0,0);
 
         // run until the target is hit or out of time
         while (opModeIsActive() && robot.pidControler.targetHit==false) {
@@ -62,7 +62,7 @@ public class AutoPark extends LinearOpMode {
         telemetry.addData("location X:",  "%.2f", robot.odometer.currentposx);
         telemetry.addData("location Y:",  "%.2f", robot.odometer.currentposy);
         telemetry.addData("location Theta:",  "%.2f", Math.toDegrees(robot.odometer.currentpostheta));
-         telemetry.addData("rho :",  "%.2f", robot.pidControler.rho);
+        telemetry.addData("rho :",  "%.2f", robot.pidControler.rho);
         telemetry.addData("alpha  :",  "%.2f", Math.toDegrees(robot.pidControler.alpha));
         telemetry.addData("beta  :",  "%.2f", Math.toDegrees(robot.pidControler.beta));
         telemetry.addData("controlPowerRight :",  "%.2f", robot.pidControler.controlRightPower);
