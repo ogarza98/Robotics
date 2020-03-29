@@ -45,8 +45,8 @@ public class AutoPark extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        robot.pidControler.setTarget(20,20,3.14/4); //set the target
-        robot.odometer.setPosition(0,0,0);
+        robot.pidControler.setTarget(0,0,0); //set the target
+        robot.odometer.setPosition(20,20,Math.PI/4);
 
         // run until the target is hit or out of time
         while (opModeIsActive() && robot.pidControler.targetHit==false) {

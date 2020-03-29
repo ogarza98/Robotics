@@ -48,9 +48,9 @@ public class RobotHardware
     static final double     TURN_SPEED              = .5;
     static final double     WHEEL_DISTANCE          = 3;
 
-    static final double     KPPA_RHO =0.039;
-    static final double     KPPA_ALPHA = 0.11;
-    static final double     KPPA_BETA =-0.02;
+    static final double     KPPA_RHO =0.038;
+    static final double     KPPA_ALPHA = 0.15;
+    static final double     KPPA_BETA =-0.1;
     //These are parameters for controlling the robot. You may fine tune them
 
     
