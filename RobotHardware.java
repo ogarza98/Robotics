@@ -47,11 +47,18 @@ public class RobotHardware
     static final double     DRIVE_SPEED             = .5;
     static final double     TURN_SPEED              = .5;
     static final double     WHEEL_DISTANCE          = 3;
+
+    static final double     KPPA_RHO =0.04;
+    static final double     KPPA_ALPHA = 0.1;
+    static final double     KPPA_BETA =-0.02;
+    //These are parameters for controlling the robot. You may fine tune them
+
     
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime runtime  = new ElapsedTime();
     public Odometer odometer = new Odometer();
+    public PIDControler pidControler = new PIDControler(); // install the new PID controller by declaring it as a new asset
     public MotionController motion_controller = new MotionController();
 
     /* Constructor */
@@ -148,56 +155,58 @@ public class RobotHardware
         }
     }
     
-    public void motionControl(double x_target, double y_target, double th_target) {
-        int newLeftTarget;
-        int newRightTarget;
+    // public void motionControl(double x_target, double y_target, double th_target) {
+    //     int newLeftTarget;
+    //     int newRightTarget;
 
-        // Ensure that the opmode is still active
-        if (currentOpMode.opModeIsActive()) {
+    //     // Ensure that the opmode is still active
+    //     if (currentOpMode.opModeIsActive()) {
 
-            // Determine new target position, and pass to motor controller
-            newLeftTarget = leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            leftMotor.setTargetPosition(newLeftTarget);
-            rightMotor.setTargetPosition(newRightTarget);
+    //         // Determine new target position, and pass to motor controller
+    //         newLeftTarget = leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+    //         newRightTarget = rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+    //         leftMotor.setTargetPosition(newLeftTarget);
+    //         rightMotor.setTargetPosition(newRightTarget);
 
-            // Turn On RUN_TO_POSITION
-            leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    //         // Turn On RUN_TO_POSITION
+    //         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    //         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            // reset the timeout time and start motion.
-            runtime.reset();
-            leftMotor.setPower(Math.abs(speed));
-            rightMotor.setPower(Math.abs(speed));
+    //         // reset the timeout time and start motion.
+    //         runtime.reset();
+    //         leftMotor.setPower(Math.abs(speed));
+    //         rightMotor.setPower(Math.abs(speed));
 
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (currentOpMode.opModeIsActive() &&
-                  (runtime.seconds() < timeoutS) &&
-                  (leftMotor.isBusy() && rightMotor.isBusy())) {
+    //         // keep looping while we are still active, and there is time left, and both motors are running.
+    //         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+    //         // its target position, the motion will stop.  This is "safer" in the event that the robot will
+    //         // always end the motion as soon as possible.
+    //         // However, if you require that BOTH motors have finished their moves before the robot continues
+    //         // onto the next step, use (isBusy() || isBusy()) in the loop test.
+    //         while (currentOpMode.opModeIsActive() &&
+    //               (runtime.seconds() < timeoutS) &&
+    //               (leftMotor.isBusy() && rightMotor.isBusy())) {
 
-                // Display it for the driver.
-                currentOpMode.telemetry.addData("Path1",  "Running to LT: %7d | RT: %7d", newLeftTarget,  newRightTarget);
-                currentOpMode.telemetry.addData("Path2",  "Running at LP: %7d | RP: %7d", leftMotor.getCurrentPosition(), rightMotor.getCurrentPosition());
+    //             // Display it for the driver.
+    //             currentOpMode.telemetry.addData("Path1",  "Running to LT: %7d | RT: %7d", newLeftTarget,  newRightTarget);
+    //             currentOpMode.telemetry.addData("Path2",  "Running at LP: %7d | RP: %7d", leftMotor.getCurrentPosition(), rightMotor.getCurrentPosition());
                                             
-                currentOpMode.telemetry.update();
-            }
+    //             currentOpMode.telemetry.update();
+    //         }
 
-            // Stop all motion;
-            leftMotor.setPower(0);
-            rightMotor.setPower(0);
+    //         // Stop all motion;
+    //         leftMotor.setPower(0);
+    //         rightMotor.setPower(0);
 
-            // Turn off RUN_TO_POSITION
-            leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    //         // Turn off RUN_TO_POSITION
+    //         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    //         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            //  sleep(250);   // optional pause after each move
-        }
-    }
+    //         //  sleep(250);   // optional pause after each move
+    //     }
+    // }
+
+
     public void updateOdometer(){
         
         double dsl = find_sl(leftMotor.getCurrentPosition() - leftPosition);
@@ -211,6 +220,15 @@ public class RobotHardware
         rightPosition = rightMotor.getCurrentPosition();
         
     }
+
+    //Added interface for the PID controller on the robot
+    public void updatePowerControl(){
+        pidControler.calculateControlPower(odometer.currentposx, odometer.currentposy, odometer.currentpostheta,KPPA_RHO, KPPA_ALPHA, KPPA_BETA, WHEEL_DIAMETER_INCHES/2, WHEEL_DISTANCE);
+    
+        leftDrive.setPower(pidControler.controlLeftPower);
+        rightDrive.setPower(pidControler.controlRightPower);
+    } 
+
     
       // fill in the math (clicks = the interval of clicks (ticks))
     public double find_sr(int clicks){
