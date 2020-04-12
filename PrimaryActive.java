@@ -104,7 +104,7 @@ public double determineDegreeToTurn(int current X, int currentY, int nextX, int 
     {
          if(nextY>currentY) targetDegree=90;
 
-         else targetDegree=270
+         else targetDegree=270;
          
     }
 
@@ -128,6 +128,7 @@ public void moveRobot(double degreeToTurn){
             robot.encoderDrive(robot.DRIVE_SPEED, -5, -5, 1.5);
             currentZ = currentZ;
             telemetry.addData(“Direction”, currentZ);
+            break;
 
 
             case 90:
@@ -135,6 +136,7 @@ public void moveRobot(double degreeToTurn){
             robot.encoderDrive(robot.DRIVE_SPEED, -5, -5, 1.5);
             int currentZ = currentZ + 90;
             telemetry.addData(“Direction”, currentZ);
+            break;
 
 
             case -90:
@@ -142,6 +144,7 @@ public void moveRobot(double degreeToTurn){
             robot.encoderDrive(robot.DRIVE_SPEED, -5, -5, 1.5);
             int currentZ = currentZ - 90;
             telemetry.addData(“Direction”, currentZ);
+            break;
 
 
             case 180:
@@ -149,6 +152,7 @@ public void moveRobot(double degreeToTurn){
             robot.encoderDrive(robot.DRIVE_SPEED, -5, -5, 1.5);
             int currentZ = currentZ + 180;
             telemetry.addData(“Direction”, currentZ);
+            break;
 
 
             case -180:
@@ -156,6 +160,10 @@ public void moveRobot(double degreeToTurn){
             robot.encoderDrive(robot.DRIVE_SPEED, -5, -5, 1.5);
             int currentZ = currentZ - 180;
             telemetry.addData(“Direction”, currentZ);
+            break;
+
+            default:
+            telemetry.addData("Error");
 
 
         }
