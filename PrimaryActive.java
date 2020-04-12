@@ -108,6 +108,9 @@ public double determineDegreeToTurn(int current X, int currentY, int nextX, int 
          
     }
 
+    degreeToTurn=(targetDegree-currentDegree);
+
+
     if (degreeToTurn>180) degreeToTurn-=360;
     if(degreeToTurn<-180) degreeToTurn+=360;
 
