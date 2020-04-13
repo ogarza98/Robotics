@@ -32,7 +32,7 @@ import com.qualcomm.robotcore.util.Range;
 public class MyLinearOpMode extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware robot           = new RobotHardware();   // Use a Pushbot's hardware
+    RobotHardware robot           = new RobotHardware(this);   // Use a Pushbot's hardware
 
 
     @Override

@@ -1,3 +1,6 @@
+package org.firstinspires.ftc.teamcode;
+
+
 /*Node File*/
 public class Node implements Comparable {
         public Node parent;
@@ -18,4 +21,3 @@ public class Node implements Comparable {
             return (int)((this.g+this.h) - (that.g + that.h));
         }
 }
-

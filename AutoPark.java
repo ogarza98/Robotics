@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.util.Range;
 public class AutoPark extends LinearOpMode {
 
     // Declare OpMode members.
-    public RobotHardware robot   = new RobotHardware(); 
+    public RobotHardware robot   = new RobotHardware(this); 
 //declare a time tracker runtime and a timer to track time
     public ElapsedTime runtime  = new ElapsedTime();
     double timer=0;

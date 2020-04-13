@@ -46,7 +46,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class AutonomousTeleOpLinear extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware         robot   = new RobotHardware();   // Use a Pushbot's hardware
+    RobotHardware         robot   = new RobotHardware(this);   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     

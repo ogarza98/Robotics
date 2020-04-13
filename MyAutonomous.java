@@ -46,7 +46,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MyAutonomous extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RobotHardware         robot   = new RobotHardware();   // Use a Pushbot's hardware
+    RobotHardware robot   = new RobotHardware(this);   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     
@@ -81,9 +81,9 @@ public class MyAutonomous extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        robot.encoderDrive(robot.DRIVE_SPEED,  -20.0,  -20.0, 5.0, this);  // S1: Forward 47 Inches with 5 Sec timeout
-        robot.encoderDrive(robot.TURN_SPEED,   -14.0, 14.0, 4.0, this);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        robot.encoderDrive(robot.DRIVE_SPEED, -20.0, -20.0, 5.0, this);  // S3: Reverse 24 Inches with 4 Sec timeout
+        robot.encoderDrive(robot.DRIVE_SPEED,  -20.0,  -20.0, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
+        robot.encoderDrive(robot.TURN_SPEED,   -14.0, 14.0, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
+        robot.encoderDrive(robot.DRIVE_SPEED, -20.0, -20.0, 5.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
         
         sleep(1000);     // pause for servos to move

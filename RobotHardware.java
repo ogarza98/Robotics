@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import java.lang.Math;
 
 /**
  * This is NOT an opmode.
@@ -38,7 +39,7 @@ public class RobotHardware
     public double dsr;
     public double dsl;
     int leftPosition, rightPosition;
-    
+    public LinearOpMode currentOpMode;
     static final double     COUNTS_PER_MOTOR_REV    = 288 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.5 ;     // For figuring circumference
@@ -62,7 +63,8 @@ public class RobotHardware
     //public MotionController motion_controller = new MotionController();
 
     /* Constructor */
-    public RobotHardware(){
+    public RobotHardware(LinearOpMode opMode){
+        currentOpMode = opMode;
 
     }
 
@@ -104,7 +106,7 @@ public class RobotHardware
     
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
-                             double timeoutS, LinearOpMode currentOpMode) {
+                             double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
 
@@ -137,8 +139,8 @@ public class RobotHardware
                   (leftMotor.isBusy() && rightMotor.isBusy())) {
 
                 // Display it for the driver.
-                currentOpMode.telemetry.addData("Path1",  "Running to LT: %7d | RT: %7d", newLeftTarget,  newRightTarget);
-                currentOpMode.telemetry.addData("Path2",  "Running at LP: %7d | RP: %7d", leftMotor.getCurrentPosition(), rightMotor.getCurrentPosition());
+                //currentOpMode.telemetry.addData("Path1",  "Running to LT: %7d | RT: %7d", newLeftTarget,  newRightTarget);
+                //currentOpMode.telemetry.addData("Path2",  "Running at LP: %7d | RP: %7d", leftMotor.getCurrentPosition(), rightMotor.getCurrentPosition());
                                             
                 currentOpMode.telemetry.update();
             }
@@ -148,8 +150,8 @@ public class RobotHardware
             rightMotor.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }
