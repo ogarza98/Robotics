@@ -112,7 +112,9 @@ public class PrimaryActive2 extends LinearOpMode {
                robot.updateOdometer();
                robot.updatePowerControl();
                timer=runtime.seconds();
+               telemetry.update();
            }
+           
         } 
     }
     telemetry.update();
