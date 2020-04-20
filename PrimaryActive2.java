@@ -102,9 +102,9 @@ public class PrimaryActive2 extends LinearOpMode {
             
              robot.pidControler.setTarget(mazeCoordinatesX[nextX][nextY],mazeCoordinatesY[nextX][nextY],targetAngle);
 
-        //robot.pidControler.targetHit=false;
+        robot.pidControler.targetHit=false;
         // run until the end of the match (driver presses STOP)
-        while (robot.pidControler.targetHit==false) {
+        while (opModeIsActive() && robot.pidControler.targetHit==false) {
 
             // Setup a variable for each drive wheel to save power level for telemetry
             
