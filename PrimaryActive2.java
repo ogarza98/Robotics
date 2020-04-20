@@ -32,7 +32,7 @@ public class PrimaryActive2 extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime             = new ElapsedTime();
     
-    RobotHardware robot = new RobotHardware();
+    RobotHardware robot = new RobotHardware(this);
 
     @Override
     public void runOpMode() {
@@ -56,15 +56,15 @@ public class PrimaryActive2 extends LinearOpMode {
         };
         double[][]mazeCoordinatesX=
         {
-        {0,    24},
-        {0,   24},
-        {0,    24}
+        {0,    12},
+        {0,   12},
+        {0,    12}
     
         };
          double[][]mazeCoordinatesY=
         {
-        {48,    48},
         {24,    24},
+        {12,    12},
         {0,    0}
     
         };
@@ -85,7 +85,7 @@ public class PrimaryActive2 extends LinearOpMode {
          
          List<Node> path = as.findPathTo(End_X, End_Y);
          robot.odometer.setPosition(mazeCoordinatesX[Start_X][Start_Y],mazeCoordinatesY[Start_X][Start_Y],0);
-         while(opModeIsActive()){
+         while(opModeIsActive() && robot.pidControler.targetHit==false){
              
          
          for(int i = 0; i < path.size()-1; i++){
@@ -102,7 +102,7 @@ public class PrimaryActive2 extends LinearOpMode {
             
              robot.pidControler.setTarget(mazeCoordinatesX[nextX][nextY],mazeCoordinatesY[nextX][nextY],targetAngle);
 
-        robot.pidControler.targetHit=false;
+        //robot.pidControler.targetHit=false;
         // run until the end of the match (driver presses STOP)
         while (robot.pidControler.targetHit==false) {
 
